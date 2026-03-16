@@ -1,105 +1,168 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import timedelta
 
 app = Flask(__name__)
-app.secret_key = "rodotransfer-secret"
+app.config['SECRET_KEY'] = 'rodotransfer-secret-key-2025'
+app.config['SESSION_COOKIE_SECURE'] = False
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
 # Usuários
 USERS = {
-    "operacional": generate_password_hash("123"),
-    "gerencia": generate_password_hash("123"),
-    "comercial": generate_password_hash("123")
+    'operacional': generate_password_hash('Rodo@2025'),
+    'frotas': generate_password_hash('Rodo.2025'),
+    'comercial': generate_password_hash('Rodo2025@'),
+    'sac': generate_password_hash('Rodo@2025'),
+    'financeiro': generate_password_hash('Rodo.2025'),
+    'gerencia': generate_password_hash('Rodo2025@'),
+    'coordenacao': generate_password_hash('Rodo@2025'),
+    'torre_de_controle': generate_password_hash('Rodo.2025'),
+    'supervisao': generate_password_hash('Rodo2025@'),
 }
 
 # Permissões
 USER_PERMISSIONS = {
-    "operacional": ["manifestos","coletas"],
-    "gerencia": ["manifestos","coletas","vendas"],
-    "comercial": ["vendas"]
+    'frotas': ['monitoramento'],
+    'comercial': ['vendas-comissao'],
+    'gerencia': ['acompanhamento-entrega', 'vendas-comissao', 'manifestos', 'follow-up', 'coletas', 'monitoramento'],
+    'operacional': ['acompanhamento-entrega', 'manifestos', 'coletas'],
+    'financeiro': ['follow-up'],
+    'coordenacao': ['acompanhamento-entrega', 'manifestos', 'coletas'],
+    'supervisao': ['acompanhamento-entrega', 'manifestos', 'coletas'],
+    'sac': ['acompanhamento-entrega'],
+    'torre_de_controle': ['acompanhamento-entrega', 'vendas-comissao', 'manifestos', 'follow-up', 'coletas', 'monitoramento'],
 }
 
 # Relatórios
 REPORTS = [
-
-{
-"id":"manifestos",
-"title":"Acompanhamento Manifestos",
-"embedUrl":"https://app.powerbi.com/view?r=SEU_LINK_AQUI"
-},
-
-{
-"id":"coletas",
-"title":"Acompanhamento de Coletas",
-"embedUrl":"https://app.powerbi.com/view?r=SEU_LINK_AQUI"
-},
-
-{
-"id":"vendas",
-"title":"Vendas x Comissão",
-"embedUrl":"https://app.powerbi.com/view?r=SEU_LINK_AQUI"
-}
-
+    {
+        'id': 'acompanhamento-entrega',
+        'title': 'Acompanhamento de Entrega',
+        'description': 'Monitoramento de entregas em tempo real',
+        'embedUrl': 'https://app.powerbi.com/view?r=eyJrIjoiZjYxNGZmYjctMDYzZC00NDk3LTk4ODgtMmQ0MTEzYTEzNTllIiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9'
+    },
+    {
+        'id': 'vendas-comissao',
+        'title': 'Vendas de Fretes x Comissão',
+        'description': 'Análise de vendas e comissões',
+        'embedUrl': 'https://app.powerbi.com/view?r=eyJrIjoiMmIyNDI3M2ItNjIwOS00MmZmLWIzZjctZmJiZGFkNzU0Y2VhIiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9'
+    },
+    {
+        'id': 'manifestos',
+        'title': 'Acompanhamento Manifestos',
+        'description': 'Gestão de manifestos de carga',
+        'embedUrl': 'https://app.powerbi.com/view?r=eyJrIjoiNmI3ZmFmNzAtM2FmYy00NjdjLWIyMGMtN2FlMjRiMmM3ZThhIiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9'
+    },
+    {
+        'id': 'follow-up',
+        'title': 'Follow Up',
+        'description': 'Acompanhamento de atividades',
+        'embedUrl': 'https://app.powerbi.com/view?r=eyJrIjoiYjAxYjQ5YjYtODQzZi00NzhkLThhYzEtOTJmMWVlMjk3ZTNlIiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9'
+    },
+    {
+        'id': 'coletas',
+        'title': 'Acompanhamento de Coletas',
+        'description': 'Gestão de coletas de mercadorias',
+        'embedUrl': 'https://app.powerbi.com/view?r=eyJrIjoiZGNkZTllYmUtMzMxOC00MDI4LWE0NDgtZTA2MjZmMTZhYjBlIiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9'
+    },
+    {
+        'id': 'monitoramento',
+        'title': 'Gestão de Monitoramento e Telemetria',
+        'description': 'Monitoramento de frota',
+        'embedUrl': 'https://app.powerbi.com/view?r=eyJrIjoiOGY1ZGMwZDctMjg5NC00MjE3LWJhMjItN2E1MjM0ZTU4M2FjIiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9'
+    }
 ]
 
-@app.route("/")
+@app.route('/')
 def index():
+    if 'user' in session:
+        return redirect(url_for('dashboard'))
+    return redirect(url_for('login'))
 
-    if "user" in session:
-        return redirect(url_for("dashboard"))
-
-    return redirect(url_for("login"))
-
-
-@app.route("/login", methods=["GET","POST"])
+@app.route('/login', methods=['GET','POST'])
 def login():
 
-    if request.method == "POST":
+    if request.method == 'POST':
 
-        username = request.form["username"]
-        password = request.form["password"]
+        username = request.form.get('username')
+        password = request.form.get('password')
 
         if username in USERS and check_password_hash(USERS[username], password):
 
-            session["user"] = username
+            session.permanent = True
+            session['user'] = username
 
-            return redirect(url_for("dashboard"))
+            return redirect(url_for('dashboard'))
 
-    return render_template("login.html")
+        else:
+            return render_template('login.html', error="Usuário ou senha inválidos")
+
+    return render_template('login.html')
 
 
-@app.route("/dashboard")
+@app.route('/dashboard')
 def dashboard():
 
-    if "user" not in session:
-        return redirect(url_for("login"))
+    if 'user' not in session:
+        return redirect(url_for('login'))
 
-    user = session["user"]
+    user = session['user']
 
-    allowed = USER_PERMISSIONS.get(user, [])
+    allowed_report_ids = USER_PERMISSIONS.get(user, [])
 
-    user_reports = [r for r in REPORTS if r["id"] in allowed]
+    user_reports = [r for r in REPORTS if r['id'] in allowed_report_ids]
 
-    return render_template("dashboard.html", reports=user_reports)
+    return render_template('dashboard.html', user=user, reports=user_reports)
 
 
-@app.route("/report/<report_id>")
+@app.route('/report/<report_id>')
 def report(report_id):
 
-    if "user" not in session:
-        return redirect(url_for("login"))
+    if 'user' not in session:
+        return redirect(url_for('login'))
 
-    report = next((r for r in REPORTS if r["id"] == report_id), None)
+    user = session['user']
 
-    return render_template("report.html", report=report)
+    allowed_report_ids = USER_PERMISSIONS.get(user, [])
+
+    if report_id not in allowed_report_ids:
+        return redirect(url_for('dashboard'))
+
+    report = next((r for r in REPORTS if r['id'] == report_id), None)
+
+    user_reports = [r for r in REPORTS if r['id'] in allowed_report_ids]
+
+    return render_template('report.html', user=user, report=report, reports=user_reports)
 
 
-@app.route("/logout")
+# API SEGURA QUE ENTREGA O LINK DO BI
+@app.route('/api/report/<report_id>')
+def get_report(report_id):
+
+    if 'user' not in session:
+        return jsonify({"error":"nao autorizado"}),403
+
+    user = session['user']
+
+    allowed_report_ids = USER_PERMISSIONS.get(user, [])
+
+    if report_id not in allowed_report_ids:
+        return jsonify({"error":"acesso negado"}),403
+
+    report = next((r for r in REPORTS if r['id'] == report_id), None)
+
+    if not report:
+        return jsonify({"error":"relatorio nao encontrado"}),404
+
+    return jsonify({"url": report['embedUrl']})
+
+
+@app.route('/logout')
 def logout():
-
     session.clear()
+    return redirect(url_for('login'))
 
-    return redirect(url_for("login"))
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run()
