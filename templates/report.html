@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <a href="{{ url_for('dashboard') }}">Voltar</a>
+    <h2>{{ report.title }}</h2>
+    <iframe width="100%" height="600px" src="{{ report.embedUrl }}" frameborder="0"></iframe>
+</body>
+</html>
