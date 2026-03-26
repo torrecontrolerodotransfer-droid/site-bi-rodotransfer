@@ -66,7 +66,7 @@ REPORTS = [
         "id":"monitoramento",
         "title":"Gestão de Monitoramento e Telemetria",
         "embedUrl":"https://app.powerbi.com/view?r=eyJrIjoiOGY1ZGMwZDctMjg5NC00MjE3LWJhMjItN2E1MjM0ZTU4M2FjIiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9"
-    }
+    },
     {
         "id":"multa",
         "title":"Gestão de Multas",
