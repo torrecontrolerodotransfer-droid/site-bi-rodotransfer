@@ -32,7 +32,7 @@ USER_PERMISSIONS = {
     'coordenacao': ['acompanhamento-entrega','manifestos','coletas'],
     'supervisao': ['acompanhamento-entrega','manifestos','coletas'],
     'sac': ['acompanhamento-entrega'],
-    'torre_de_controle': ['acompanhamento-entrega','vendas-comissao','manifestos','follow-up','coletas','monitoramento']
+    'torre_de_controle': ['acompanhamento-entrega','vendas-comissao','manifestos','follow-up','coletas','monitoramento','multa']
 }
 
 # Relatórios
