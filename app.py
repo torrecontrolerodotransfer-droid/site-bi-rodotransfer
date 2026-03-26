@@ -24,7 +24,7 @@ USERS = {
 
 # Permissões
 USER_PERMISSIONS = {
-    'frotas': ['monitoramento'],
+    'frotas': ['monitoramento','multa'],
     'comercial': ['vendas-comissao'],
     'gerencia': ['acompanhamento-entrega','vendas-comissao','manifestos','follow-up','coletas','monitoramento'],
     'operacional': ['acompanhamento-entrega','manifestos','coletas'],
@@ -66,6 +66,11 @@ REPORTS = [
         "id":"monitoramento",
         "title":"Gestão de Monitoramento e Telemetria",
         "embedUrl":"https://app.powerbi.com/view?r=eyJrIjoiOGY1ZGMwZDctMjg5NC00MjE3LWJhMjItN2E1MjM0ZTU4M2FjIiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9"
+    }
+    {
+        "id":"multa",
+        "title":"Gestão de Multas",
+        "embedUrl":"https://app.powerbi.com/view?r=eyJrIjoiNDU4NTdmMjAtNjFiZS00YTJmLTk5NmUtNWNlNDFlYjU5NTY1IiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9"
     }
 ]
 
