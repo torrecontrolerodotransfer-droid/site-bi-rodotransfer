@@ -24,7 +24,7 @@ USERS = {
 
 # Permissões
 USER_PERMISSIONS = {
-    'frotas': ['monitoramento','multa'],
+    'frotas': ['monitoramento','multa','checklist'],
     'comercial': ['vendas-comissao'],
     'gerencia': ['acompanhamento-entrega','vendas-comissao','manifestos','follow-up','coletas','monitoramento'],
     'operacional': ['acompanhamento-entrega','manifestos','coletas'],
@@ -71,6 +71,11 @@ REPORTS = [
         "id":"multa",
         "title":"Gestão de Multas",
         "embedUrl":"https://app.powerbi.com/view?r=eyJrIjoiNDU4NTdmMjAtNjFiZS00YTJmLTk5NmUtNWNlNDFlYjU5NTY1IiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9"
+    },
+    {
+        "id":"checklist",
+        "title":"Acompanhamento de Check List",
+        "embedUrl":"https://app.powerbi.com/view?r=eyJrIjoiOTY2MWJhOGQtYTJkNS00ODU1LWE3YzAtZTMxOWI4NzA1MjQ4IiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9"
     }
 ]
 
