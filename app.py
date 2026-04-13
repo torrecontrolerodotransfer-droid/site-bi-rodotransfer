@@ -11,7 +11,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
 
 # Usuários
 USERS = {
-    'operacional': generate_password_hash('Rodo@2025'),
+    'operacional': generate_password_hash('Rodo@2025'),    
     'frotas': generate_password_hash('Rodo.2025'),
     'comercial': generate_password_hash('Rodo2025@'),
     'sac': generate_password_hash('Rodo@2025'),
@@ -26,13 +26,13 @@ USERS = {
 USER_PERMISSIONS = {
     'frotas': ['monitoramento','multa','checklist'],
     'comercial': ['vendas-comissao'],
-    'gerencia': ['acompanhamento-entrega','vendas-comissao','manifestos','follow-up','coletas','monitoramento'],
+    'gerencia': ['acompanhamento-entrega','vendas-comissao','manifestos','follow-up','coletas','monitoramento','checklist'],
     'operacional': ['acompanhamento-entrega','manifestos','coletas'],
     'financeiro': ['follow-up'],
     'coordenacao': ['acompanhamento-entrega','manifestos','coletas'],
     'supervisao': ['acompanhamento-entrega','manifestos','coletas'],
     'sac': ['acompanhamento-entrega'],
-    'torre_de_controle': ['acompanhamento-entrega','vendas-comissao','manifestos','follow-up','coletas','monitoramento','multa']
+    'torre_de_controle': ['acompanhamento-entrega','vendas-comissao','manifestos','follow-up','coletas','monitoramento','multa','checklist']
 }
 
 # Relatórios
