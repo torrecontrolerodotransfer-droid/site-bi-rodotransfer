@@ -15,7 +15,7 @@ USERS = {
     'frotas': generate_password_hash('Rodo.2025'),
     'comercial': generate_password_hash('Rodo2025@'),
     'sac': generate_password_hash('Rodo@2025'),
-    'financeiro': generate_password_hash('Rodo.2025'),
+    'financeiro': generate_password_hash('Rodo.2026'),
     'gerencia': generate_password_hash('Rodo2025@'),
     'coordenacao': generate_password_hash('Rodo@2025'),
     'torre_de_controle': generate_password_hash('Rodo.2025'),
