@@ -28,7 +28,7 @@ USER_PERMISSIONS = {
     'comercial': ['vendas-comissao'],
     'gerencia': ['acompanhamento-entrega','vendas-comissao','manifestos','follow-up','coletas','monitoramento','checklist'],
     'operacional': ['acompanhamento-entrega','manifestos','coletas'],
-    'financeiro': ['follow-up'],
+    'financeiro': ['Gestão de Clientes'],
     'coordenacao': ['acompanhamento-entrega','manifestos','coletas'],
     'supervisao': ['acompanhamento-entrega','manifestos','coletas'],
     'sac': ['acompanhamento-entrega'],
@@ -53,9 +53,9 @@ REPORTS = [
         "embedUrl":"https://app.powerbi.com/view?r=eyJrIjoiNmI3ZmFmNzAtM2FmYy00NjdjLWIyMGMtN2FlMjRiMmM3ZThhIiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9"
     },
     {
-        "id":"follow-up",
-        "title":"Follow Up",
-        "embedUrl":"https://app.powerbi.com/view?r=eyJrIjoiYjAxYjQ5YjYtODQzZi00NzhkLThhYzEtOTJmMWVlMjk3ZTNlIiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9"
+        "id":"Gestão de Clientes",
+        "title":"Gestão de Clientes",
+        "embedUrl":"https://app.powerbi.com/view?r=eyJrIjoiMmViZWU5ZDItOTY4Yi00ZDg1LWI4MzgtYjZlYzczMTE5M2I4IiwidCI6IjkyM2UxNzhmLTliMDQtNDRjNy1hNzEzLWE4ODRiMWFiYjk2NCJ9"
     },
     {
         "id":"coletas",
